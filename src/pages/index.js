@@ -65,7 +65,7 @@ export default function Home() {
     };
 
     fetchStarCount();
-    const interval = setInterval(fetchStarCount, 2000);
+    const interval = setInterval(fetchStarCount, 5000);
 
     return () => clearInterval(interval);
   }, [starCount]);
