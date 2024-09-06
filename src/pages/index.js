@@ -15,13 +15,13 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-function AnimatedDigit({ digit, direction }) {
+function AnimatedDigit({ digit, direction, isInitialLoad }) {
   return (
     <div className="w-20 h-28 bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden">
       <AnimatePresence mode="popLayout">
         <motion.span
           key={digit}
-          initial={{ y: direction === 'up' ? 50 : -50, opacity: 0 }}
+          initial={{ y: isInitialLoad ? -50 : (direction === 'up' ? 50 : -50), opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: direction === 'up' ? -50 : 50, opacity: 0 }}
           transition={{ duration: 0.3 }}
@@ -35,8 +35,9 @@ function AnimatedDigit({ digit, direction }) {
 }
 
 export default function Home() {
-  const [starCount, setStarCount] = useState(0);
-  const [prevStarCount, setPrevStarCount] = useState(0);
+  const [starCount, setStarCount] = useState(null);
+  const [prevStarCount, setPrevStarCount] = useState(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     const fetchStarCount = async () => {
@@ -56,6 +57,7 @@ export default function Home() {
         if (data.stargazers_count !== starCount) {
           setPrevStarCount(starCount);
           setStarCount(data.stargazers_count);
+          setIsInitialLoad(false);
         }
       } catch (error) {
         console.error('Error fetching star count:', error);
@@ -68,8 +70,8 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [starCount]);
 
-  const starCountString = starCount.toString().padStart(5, '0');
-  const prevStarCountString = prevStarCount.toString().padStart(5, '0');
+  const starCountString = starCount !== null ? starCount.toString().padStart(5, '0') : '     ';
+  const prevStarCountString = prevStarCount !== null ? prevStarCount.toString().padStart(5, '0') : '     ';
 
   return (
     <div
@@ -81,8 +83,15 @@ export default function Home() {
         <div className="flex gap-2">
           {starCountString.split('').map((digit, index) => {
             const prevDigit = prevStarCountString[index];
-            const direction = parseInt(digit) >= parseInt(prevDigit) ? 'down' : 'up';
-            return <AnimatedDigit key={`${index}-${digit}`} digit={digit} direction={direction} />;
+            const direction = isInitialLoad || digit >= prevDigit ? 'down' : 'up';
+            return (
+              <AnimatedDigit 
+                key={`${index}-${digit}`} 
+                digit={digit === ' ' ? '\u00A0' : digit} 
+                direction={direction} 
+                isInitialLoad={isInitialLoad} 
+              />
+            );
           })}
         </div>
       </main>
