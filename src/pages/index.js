@@ -79,7 +79,7 @@ export default function Home() {
     >
       <main className="flex flex-col items-center pt-10 gap-8">
         <BrunoIcon width={150} />
-        <h1 className="text-5xl font-bold mb-8">Bruno GitHub Stars</h1>
+        <h1 className="text-5xl text-center font-bold mb-8">Bruno GitHub Stars</h1>
         <div className="flex gap-2">
           {starCountString.split('').map((digit, index) => {
             const prevDigit = prevStarCountString[index];
