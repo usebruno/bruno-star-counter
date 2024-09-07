@@ -77,7 +77,7 @@ export default function Home() {
     <div
       className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[1fr_auto] min-h-screen p-8 pb-20 font-[family-name:var(--font-geist-sans)] bg-gray-100`}
     >
-      <main className="flex flex-col items-center pt-10 gap-8">
+      <main className="flex flex-col items-center pt-10 gap-8 text-yellow-600	">
         <BrunoIcon width={150} />
         <h1 className="text-5xl text-center font-bold mb-8">Bruno GitHub Stars</h1>
         <div className="flex gap-2">
@@ -95,7 +95,7 @@ export default function Home() {
           })}
         </div>
       </main>
-      <footer className="flex gap-6 flex-wrap items-center justify-center">
+      <footer className="flex gap-6 flex-wrap items-center justify-center text-yellow-600">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href="https://www.usebruno.com"
