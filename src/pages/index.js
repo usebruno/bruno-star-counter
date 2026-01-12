@@ -65,7 +65,8 @@ export default function Home() {
     };
 
     fetchStarCount();
-    const interval = setInterval(fetchStarCount, 5000);
+    // refresh every 5 mins, otherwise github api will quickly hit rate limits
+    const interval = setInterval(fetchStarCount, 5 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, [starCount]);
